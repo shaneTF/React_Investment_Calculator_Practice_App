@@ -6,15 +6,17 @@ import Results from "./components/Results";
 
 function App() {
   const [userInput, setUserInput] = useState({
-    initialInvestment: 10000,
+    initialInvestment: 15000,
     annualInvestment: 1200,
     expectedReturn: 6,
     duration: 10,
   });
 
+  const userInputIsValid = userInput.duration >= 1;
+
   function handleChange(inputValue, newValue) {
     setUserInput((prevUserInput) => {
-      return { ...prevUserInput, [inputValue]: newValue };
+      return { ...prevUserInput, [inputValue]: +newValue };
     });
   }
 
@@ -22,7 +24,11 @@ function App() {
     <>
       <Header />
       <UserInput userInput={userInput} onChange={handleChange} />
-      <Results userInput={userInput} />
+      {userInputIsValid ? (
+        <Results userInput={userInput} />
+      ) : (
+        <p className="center">Please enter valid input data!</p>
+      )}
     </>
   );
 }
